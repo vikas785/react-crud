@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
+import {  useNavigate, Link } from 'react-router-dom';
 
 
 
 const Dashboard = () => {
     const [userList, setUserList] = useState()
+    const navigate = useNavigate()
 
     const handleDelete = async (userid) =>{
         try{
@@ -18,7 +20,6 @@ const Dashboard = () => {
     useEffect(() => {
         axios.get('http://localhost:8001/')
             .then(res => setUserList(res.data))
-
     }, [])
 
 
@@ -33,6 +34,7 @@ const Dashboard = () => {
                             <th scope="col">Name</th>
                             <th scope="col">Age</th>
                             <th scope="col">Gender</th>
+                            <th scope="col">Company</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -41,13 +43,14 @@ const Dashboard = () => {
                             userList?.map((user) => {
                                 return (
                                     <tr>
-                                        <th scope="row">{user.id}</th>
-                                        <td>{user.fullname}</td>
-                                        <td>{user.age}</td>
-                                        <td>{user.gender}</td>
+                                        <th scope="row">{user.Id}</th>
+                                        <td>{user.Fullname}</td>
+                                        <td>{user.Age}</td>
+                                        <td>{user.Gender}</td>
+                                        <td>{user.Company}</td>
                                         <td >
-                                        <button type="button" className="btn btn-primary me-2">U</button>
-                                        <button type="button" className="btn btn-danger" onClick={()=>handleDelete(user.id)}>D
+                                        <Link to={`update/${user.Id}`}  className="btn btn-primary me-2">Update</Link>
+                                        <button type="button" className="btn btn-danger" onClick={()=>handleDelete(user.Id)}>Delete
                                         </button>
                                         </td>
                                     </tr>
@@ -56,6 +59,9 @@ const Dashboard = () => {
                         }
                     </tbody>
                 </table>
+                <div className='text-end pe-2'>
+                <button type="button" className="btn btn-success" onClick={()=>navigate('/add')} >+ Add New User</button>
+                </div>
             </div>
 
         </div>

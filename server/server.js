@@ -21,17 +21,41 @@ app.get('/',(req,res)=>{
     })
 })
 
+app.get('/:id',(req,res)=>{
+    const sql = "SELECT * from user_details WHERE `Id`=?";
+    const id = req.params.id;
+    db.query(sql,[id], (err,data)=>{
+        if(err) return res.json("Error")
+        return res.json(data)
+    })
+})
+
 app.post('/addUser',(req,res)=>{
-    const sql = "INSERT INTO user_details (`fullname`,`age`,`gender`,`company`,`married`) VALUES(?)";
+    const sql = "INSERT INTO user_details (`Fullname`,`Age`,`Gender`,`Company`) VALUES(?)";
     const values= [
         req.body.name,
         req.body.age,
         req.body.gender,
-        req.body.company,
-        req.body.maritalStatus
+        req.body.company
     ]
 
     db.query(sql, [values], (err,data)=>{
+        if(err) return res.json("Error")
+        return res.json(data)
+    })
+})
+
+app.put('/updateUser/:id',(req,res)=>{
+    const sql = "UPDATE user_details set `Fullname`=?, `Age`=?, `Gender`=?, `Company`=? WHERE Id=? ";
+    const values= [
+        req.body.name,
+        req.body.age,
+        req.body.gender,
+        req.body.company
+    ]
+    const id= req.params.id
+
+    db.query(sql, [...values,id], (err,data)=>{
         if(err) return res.json("Error")
         return res.json(data)
     })
