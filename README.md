@@ -1,8 +1,5 @@
 
-# Project Title
-
-User CRUD operation using React FE and Nodejs BE.
-
+# User CRUD operation using React FE and Nodejs BE.
 
 ## Backend Setup
 
